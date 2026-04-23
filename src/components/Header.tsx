@@ -10,42 +10,6 @@ export default function Header() {
             Yoga Schedule
           </Link>
         </h2>
-
-        <div class="order-3 flex w-full flex-wrap items-center gap-x-4 gap-y-1 pb-1 text-sm font-semibold sm:order-2 sm:w-auto sm:flex-nowrap sm:pb-0">
-          <Link
-            to="/"
-            class="nav-link"
-            activeProps={{ class: 'nav-link is-active' }}
-          >
-            Home
-          </Link>
-          <Link
-            to="/about"
-            class="nav-link"
-            activeProps={{ class: 'nav-link is-active' }}
-          >
-            About
-          </Link>
-          <a
-            href="https://tanstack.com/start/latest/docs/framework/solid/overview"
-            target="_blank"
-            rel="noreferrer"
-            class="nav-link"
-          >
-            Docs
-          </a>
-          <details class="relative w-full sm:w-auto">
-            <summary class="nav-link list-none cursor-pointer">Demos</summary>
-            <div class="mt-2 min-w-56 rounded-xl border border-[var(--line)] bg-[var(--header-bg)] p-2 shadow-lg sm:absolute sm:right-0">
-              <a
-                href="/demo/tanstack-query"
-                class="block rounded-lg px-3 py-2 text-sm text-[var(--sea-ink-soft)] no-underline transition hover:bg-[var(--link-bg-hover)] hover:text-[var(--sea-ink)]"
-              >
-                TanStack Query
-              </a>
-            </div>
-          </details>
-        </div>
       </nav>
     </header>
   )
