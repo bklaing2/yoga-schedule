@@ -20,6 +20,11 @@ jobs:
         run: bun install
 
       - name: Build project
+        env:
+          VITE_UPTOWN_URL: ${{ secrets.UPTOWN_URL }}
+          VITE_YOGAZAMA_URL: ${{ secrets.YOGAZAMA_URL }}
+          VITE_V12YOGA_URL: ${{ secrets.V12YOGA_URL }}
+          VITE_PILATESMETHODOLOGY_URL: ${{ secrets.PILATESMETHODOLOGY_URL }}
         run: bun run build
 
       # Copy _shell.html to 404.html so deep routes work
