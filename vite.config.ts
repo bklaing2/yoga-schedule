@@ -8,7 +8,7 @@ import { tanstackStart } from '@tanstack/solid-start/plugin/vite'
 import solidPlugin from 'vite-plugin-solid'
 
 export default defineConfig({
-  // base: '/yoga-schedule/',
+  base: '/yoga-schedule/',
   plugins: [
     devtools(),
     // this is the plugin that enables path aliases
@@ -16,7 +16,7 @@ export default defineConfig({
       projects: ['./tsconfig.json'],
     }),
     tailwindcss(),
-    tanstackStart(),
+    tanstackStart({ spa: { enabled: true } }),
     solidPlugin({ ssr: true }),
   ],
 })
