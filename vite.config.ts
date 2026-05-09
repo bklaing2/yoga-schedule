@@ -16,7 +16,7 @@ export default defineConfig({
       projects: ['./tsconfig.json'],
     }),
     tailwindcss(),
-    tanstackStart({ spa: { enabled: true } }),
+    tanstackStart({ prerender: { enabled: true } }),
     solidPlugin({ ssr: true }),
   ],
 })
