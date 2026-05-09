@@ -1,9 +1,11 @@
-export function info<T>(value: T, print = true) {
+import { DEBUG } from "./constants"
+
+export function info<T>(value: T, print = DEBUG) {
   if (print) console.info(value)
   return value
 }
 
-export function debug<T>(value: T, print = true) {
+export function debug<T>(value: T, print = DEBUG) {
   if (print) console.debug(value)
   return value
 }
