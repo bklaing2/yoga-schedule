@@ -1,10 +1,9 @@
-import { createQuery } from "@tanstack/solid-query"
 import { HOSTS, MINUTE, SECOND } from "./constants"
 import { JSDOM } from "jsdom"
 import type { Class, PilatesMethodologyResponse, UptownResponse, V12YogaResponse, YogaZamaResponse } from "./types"
 import { encodeDate, info } from "./util"
 
-async function fetchClasses() {
+export async function fetchClasses() {
   const allClasses = await Promise.all([
     fetchUptown(),
     fetchYogaZama(),
@@ -25,12 +24,6 @@ async function fetchClasses() {
 
   return info(classes)
 }
-
-export const createClasses = () => createQuery(() => ({
-  queryKey: ["yoga", "classes"],
-  queryFn: async () => await fetchClasses(),
-  placeholderData: new Map<number, Class[]>(),
-}))
 
 async function fetchUptown() {
   const res = await fetch(HOSTS.uptown.url)

@@ -1,32 +1,22 @@
 import { createFileRoute } from '@tanstack/solid-router'
-import { For, Match, Switch } from 'solid-js'
-import { createClasses } from '../queries';
+import { For } from 'solid-js'
+import { fetchClasses } from '../queries';
 import type { Class } from '../types';
 import { decodeDate } from '../util';
 
-export const Route = createFileRoute('/')({ component: App })
+export const Route = createFileRoute('/')({ component: App, loader: fetchClasses })
 
 function App() {
-  const classes = createClasses()
+  const classes = Route.useLoaderData()
 
   return (
     <main class="page-wrap px-4 pb-8 pt-14">
-      <Switch fallback={<p>Loading...</p>}>
-        <Match when={classes.error}>
-          <p>Error loading classes: {classes.error?.message || "unknown"}</p>
-        </Match>
-        <Match when={classes.isFetching}>
-          <p>Loading classes...</p>
-        </Match>
-        <Match when={classes.data}>
-          <ul class="grid grid-cols-5 gap-4">
-            <For each={Array.from(classes.data!.entries())}>{([date, classes]) => <li class="contents">
-              <Day date={decodeDate(date)} classes={classes} />
-            </li>}
-            </For>
-          </ul>
-        </Match>
-      </Switch>
+      <ul class="grid grid-cols-5 gap-4">
+        <For each={Array.from(classes().entries())}>{([date, classes]) => <li class="contents">
+          <Day date={decodeDate(date)} classes={classes} />
+        </li>}
+        </For>
+      </ul>
     </main>
   )
 }
