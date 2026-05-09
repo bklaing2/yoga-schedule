@@ -4,7 +4,7 @@ export type Class = {
   startTime: Date
   endTime: Date
   host: string
-  _raw: unknown
+  // _raw: UptownClass | YogaZamaClass | Document | PilatesMethodologyClass
 }
 
 export type UptownResponse = {
@@ -267,54 +267,56 @@ export type V12YogaResponse = {
 // </tr>
 
 export type PilatesMethodologyResponse = {
-  payload: {
-    sessionName: string
-    level: string // description
-    startsAt: string
-    endsAt: string
-    durationMinutes: number
-    teacher: string
-
-    capacity: number
-    id: number
-    hostId: number
-    remainingSpots: {
-      remaining: number
-      total: number
-    }
-
-    type: string
-    image: string
-    allowWaitlist: boolean
-    link: string
-    location: string
-    locationId: number
-    inPerson: boolean
-    price: unknown | null
-    fixedTicketPrice: number
-    dynamicTicketPriceMin: unknown | null
-    ticketsSold: number
-    freeEvent: boolean
-    ticketPriceType: string
-    teacherId: number
-    teacherPicture: string
-    teacherHasBio: boolean
-    originalTeacher: string
-    originalTeacherId: number
-    additionalTeachers: []
-    semester: unknown | null
-    course: unknown | null
-    isCancelled: boolean
-    waitlistCapacity: unknown | null
-    waitlistFull: boolean
-    requireMembershipBooking: boolean
-    currency: string
-    salesCutoff: unknown | null
-    priceInEventCredits: string
-  }[]
+  payload: PilatesMethodologyClass[]
   pagination: {
     page: number
     pageSize: number
     totalCount: number
   }
+}
+
+export type PilatesMethodologyClass = {
+  sessionName: string
+  level: string // description
+  startsAt: string
+  endsAt: string
+  durationMinutes: number
+  teacher: string
+
+  capacity: number
+  id: number
+  hostId: number
+  remainingSpots: {
+    remaining: number
+    total: number
+  }
+
+  type: string
+  image: string
+  allowWaitlist: boolean
+  link: string
+  location: string
+  locationId: number
+  inPerson: boolean
+  price: unknown | null
+  fixedTicketPrice: number
+  dynamicTicketPriceMin: unknown | null
+  ticketsSold: number
+  freeEvent: boolean
+  ticketPriceType: string
+  teacherId: number
+  teacherPicture: string
+  teacherHasBio: boolean
+  originalTeacher: string
+  originalTeacherId: number
+  additionalTeachers: []
+  semester: unknown | null
+  course: unknown | null
+  isCancelled: boolean
+  waitlistCapacity: unknown | null
+  waitlistFull: boolean
+  requireMembershipBooking: boolean
+  currency: string
+  salesCutoff: unknown | null
+  priceInEventCredits: string
 }

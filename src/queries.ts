@@ -2,8 +2,9 @@ import { HOSTS, MINUTE, SECOND } from "./constants"
 import { JSDOM } from "jsdom"
 import type { Class, PilatesMethodologyResponse, UptownResponse, V12YogaResponse, YogaZamaResponse } from "./types"
 import { encodeDate, info } from "./util"
+import { createServerFn } from "@tanstack/solid-start"
 
-export async function fetchClasses() {
+export const fetchClasses = createServerFn().handler(async () => {
   const allClasses = await Promise.all([
     fetchUptown(),
     fetchYogaZama(),
@@ -19,16 +20,26 @@ export async function fetchClasses() {
       classes.set(date, [...(classes.get(date) ?? []), ...classList])
   }
 
-  for (const [date, classList] of classes.entries())
-    classes.set(date, classList.sort((a, b) => a.startTime.getTime() - b.startTime.getTime()))
+  for (const [date, classList] of classes.entries()) {
+    classes.set(date, classList
+      // Sort classes by start time
+      .sort((a, b) => a.startTime.getTime() - b.startTime.getTime())
+      // Clean/normalize fields
+      .map(c => ({
+        ...c,
+        name: c.name.trim(),
+        instructor: c.instructor.trim(),
+      }))
+    )
+  }
 
-  return info(classes)
-}
+  return info(Array.from(classes.entries()), false)
+})
 
 async function fetchUptown() {
   const res = await fetch(HOSTS.uptown.url)
   const { data } = (await res.json()) as UptownResponse, { classes } = data
-  return info(classes.filter((c) =>
+  return classes.filter((c) =>
     c.location.name.toLowerCase().includes("uptown") &&
     c.isBookable &&
     !c.canceled &&
@@ -43,10 +54,10 @@ async function fetchUptown() {
       startTime,
       endTime: new Date(c.end_time * SECOND),
       host: "Uptown Yoga",
-      _raw: c,
+      // _raw: c,
     }])
     return days
-  }, new Map<number, Class[]>()))
+  }, new Map<number, Class[]>())
 }
 
 async function fetchYogaZama() {
@@ -64,7 +75,7 @@ async function fetchYogaZama() {
       startTime,
       endTime: new Date(startTime.getTime() + c.class_type.duration * MINUTE),
       host: "YogaZama",
-      _raw: c,
+      // _raw: c,
     }])
     return days
   }, new Map<number, Class[]>()))
@@ -94,7 +105,7 @@ async function fetchV12Yoga() {
       startTime: new Date(startTimeRaw.substring(1, startTimeRaw.length - 7)),
       endTime: new Date(endTimeRaw.substring(1, endTimeRaw.length - 7)),
       host: "V12yoga",
-      _raw: null
+      // _raw: document
     })
   }
 
@@ -103,7 +114,7 @@ async function fetchV12Yoga() {
     const day = days.get(key) ?? []
     days.set(key, [...day, c])
     return days
-  }, new Map<number, Class[]>()), true)
+  }, new Map<number, Class[]>()))
 }
 
 async function fetchPilatesMethodology() {
@@ -121,7 +132,7 @@ async function fetchPilatesMethodology() {
       startTime,
       endTime: new Date(c.endsAt),
       host: "Pilates Methodology",
-      _raw: c,
+      // _raw: c,
     }])
     return days
   }, new Map<number, Class[]>()))

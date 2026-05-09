@@ -10,7 +10,7 @@ export function debug<T>(value: T, print = DEBUG) {
   return value
 }
 
-export const simpleISO = (date: Date) => date.toISOString().split("T")[0]
+export function simpleISO(date: Date) { return date.toISOString().split("T")[0] }
 
 export function encodeDate(date: Date) {
   const year = date.getFullYear();

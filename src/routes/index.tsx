@@ -1,29 +1,89 @@
 import { createFileRoute } from '@tanstack/solid-router'
-import { For } from 'solid-js'
+import { children, createSignal, For, Show } from 'solid-js'
 import { fetchClasses } from '../queries';
 import type { Class } from '../types';
 import { decodeDate } from '../util';
 
-export const Route = createFileRoute('/')({ component: App, loader: fetchClasses })
+export const Route = createFileRoute('/')({
+  component: App,
+  loader: () => fetchClasses()
+})
 
 function App() {
   const classes = Route.useLoaderData()
 
+  const [selectedHosts, setSelectedHosts] = createSignal<string[]>([]);
+  const [selectedClasses, setSelectedClasses] = createSignal<string[]>([]);
+  const [selectedInstructors, setSelectedInstructors] = createSignal<string[]>([]);
+
+  const filteredClasses = () => classes().map(([day, classes]) => [day, classes.filter(c =>
+    (selectedHosts().length === 0 || selectedHosts().includes(c.host)) &&
+    (selectedClasses().length === 0 || selectedClasses().includes(c.name)) &&
+    (selectedInstructors().length === 0 || selectedInstructors().includes(c.instructor))
+  )] as const)
+
+  const hosts = () => getValues("host")
+  const classNames = () => getValues("name")
+  const instructors = () => getValues("instructor")
+
   return (
-    <main class="page-wrap px-4 pb-8 pt-14">
-      <ul class="grid grid-cols-5 gap-4">
-        <For each={Array.from(classes().entries())}>{([date, classes]) => <li class="contents">
-          <Day date={decodeDate(date)} classes={classes} />
-        </li>}
-        </For>
-      </ul>
-    </main>
+    <>
+      <aside class="w-full flex flex-col gap-10 overflow-y-scroll">
+        <Select options={hosts()} selected={selectedHosts()} setSelected={setSelectedHosts}>
+          Locations
+        </Select>
+        <Select options={classNames()} selected={selectedClasses()} setSelected={setSelectedClasses}>
+          Classes
+        </Select>
+        <Select options={instructors()} selected={selectedInstructors()} setSelected={setSelectedInstructors}>
+          Instructors
+        </Select>
+      </aside >
+
+      <main class="grid grid-cols-5 gap-4 w-full overflow-y-scroll">
+        <ul class="contents">
+          <For each={filteredClasses()}>{([date, classes]) => <li class="contents">
+            <Day date={decodeDate(date)} classes={classes} />
+          </li>}
+          </For>
+        </ul>
+      </main>
+    </>
   )
+
+  function getValues<K extends keyof Class>(key: K) {
+    return Array.from(new Set(classes().flatMap(([_, classes]) => classes.map(c => c[key])))).sort()
+  }
+}
+
+function Select(props: { options: string[], selected: string[], setSelected: (selected: string[]) => void, children: string }) {
+  const name = children(() => props.children)() as string;
+  const id = `select-${name.toLowerCase()}`
+
+  return <div class="w-full grid grid-cols-[1fr_auto] auto-rows-auto">
+    <label class="font-bold" for={id}>{name}</label>
+    <Show when={props.selected.length > 0}>
+      <button onClick={() => props.setSelected([])}>⨂</button>
+    </Show>
+
+    <select
+      multiple
+      size={props.options.length}
+      class="w-full mt-4 col-span-full"
+      name={name.toLowerCase()}
+      id={id}
+      onChange={(e) => props.setSelected(Array.from(e.currentTarget.selectedOptions).map((o) => o.value))}
+    >
+      <For each={props.options}>{(option) =>
+        <option value={option} selected={props.selected.includes(option)}>{option}</option>
+      }</For>
+    </select>
+  </div>
 }
 
 function Day(props: { date: Date, classes: Class[] }) {
   return <>
-    <h3 class="col-span-full">{props.date.toISOString().split("T")[0]}:  {props.classes.length} classes</h3>
+    <h3 class="font-bold col-span-full">{props.date.toISOString().split("T")[0]}:  {props.classes.length} classes</h3>
     <ul class="contents">
       <For each={props.classes}>{(c) => <li class="contents">
         <ClassItem {...c} />

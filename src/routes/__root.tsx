@@ -9,8 +9,6 @@ import { TanStackRouterDevtools } from '@tanstack/solid-router-devtools'
 import { HydrationScript } from 'solid-js/web'
 import { Suspense } from 'solid-js'
 
-import Header from '../components/Header'
-
 import styleCss from '../styles.css?url'
 import type { QueryClient } from '@tanstack/solid-query'
 import { SolidQueryDevtools } from '@tanstack/solid-query-devtools'
@@ -29,11 +27,10 @@ function RootComponent() {
     <html>
       <head>
         <HydrationScript />
-        <HeadContent />
       </head>
-      <body>
+      <body class="h-screen grid grid-cols-[max-content_1fr] gap-8 px-16 pt-8 justify-start">
+        <HeadContent />
         <Suspense>
-          <Header />
           <Outlet />
           <TanStackRouterDevtools position="bottom-right" />
           <SolidQueryDevtools buttonPosition="bottom-left" />
