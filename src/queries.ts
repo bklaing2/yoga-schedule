@@ -1,5 +1,6 @@
 import { createQuery } from "@tanstack/solid-query"
 import { HOSTS, MINUTE, SECOND } from "./constants"
+import { JSDOM } from "jsdom"
 import type { Class, PilatesMethodologyResponse, UptownResponse, V12YogaResponse, YogaZamaResponse } from "./types"
 import { encodeDate, info } from "./util"
 
@@ -79,8 +80,8 @@ async function fetchYogaZama() {
 async function fetchV12Yoga() {
   const res = await fetch(HOSTS.v12Yoga.url)
   const { contents } = (await res.json()) as V12YogaResponse
-  const parser = new DOMParser()
-  const rows = parser.parseFromString(contents, "text/html").getElementsByTagName("tr")
+  const { window: { document } } = new JSDOM(contents)
+  const rows = document.getElementsByTagName("tr")
 
   const classes: Class[] = []
 
