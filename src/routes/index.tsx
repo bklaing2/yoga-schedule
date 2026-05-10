@@ -134,7 +134,7 @@ function ClassItem(props: Class) {
     <span>{props.name}</span>
     <span>{formatTime(props.startTime)}<span class="text-gray-400"> - {formatTime(props.endTime)}</span></span>
     <span>{props.instructor}</span>
-    <span>{props.host}</span>
+    <span class="text-gray-400">{props.host}</span>
   </>
 }
 
