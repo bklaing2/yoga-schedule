@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/solid-router'
-import { children, createSignal, For, Show } from 'solid-js'
+import { children, createSignal, For } from 'solid-js'
 import { fetchClasses } from '../queries';
 import type { Class } from '../types';
 import { decodeDate } from '../util';
@@ -28,7 +28,7 @@ function App() {
 
   return (
     <>
-      <aside class="w-full flex flex-col gap-10 pr-4 overflow-y-scroll">
+      <aside class="w-full flex flex-col gap-10 pr-10 overflow-y-scroll">
         <Select
           options={hosts().map(value => ({ value, count: getCount(value, "host") }))}
           selected={selectedHosts()}
