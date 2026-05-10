@@ -29,13 +29,25 @@ function App() {
   return (
     <>
       <aside class="w-full flex flex-col gap-10 overflow-y-scroll">
-        <Select options={hosts()} selected={selectedHosts()} setSelected={setSelectedHosts}>
+        <Select
+          options={hosts().map(value => ({ value, count: getCount(value, "host") }))}
+          selected={selectedHosts()}
+          setSelected={setSelectedHosts}
+        >
           Locations
         </Select>
-        <Select options={classNames()} selected={selectedClasses()} setSelected={setSelectedClasses}>
+        <Select
+          options={classNames().map(value => ({ value, count: getCount(value, "name") }))}
+          selected={selectedClasses()}
+          setSelected={setSelectedClasses}
+        >
           Classes
         </Select>
-        <Select options={instructors()} selected={selectedInstructors()} setSelected={setSelectedInstructors}>
+        <Select
+          options={instructors().map(value => ({ value, count: getCount(value, "instructor") }))}
+          selected={selectedInstructors()}
+          setSelected={setSelectedInstructors}
+        >
           Instructors
         </Select>
       </aside >
@@ -54,31 +66,38 @@ function App() {
   function getValues<K extends keyof Class>(key: K) {
     return Array.from(new Set(classes().flatMap(([_, classes]) => classes.map(c => c[key])))).sort()
   }
-}
 
-function Select(props: { options: string[], selected: string[], setSelected: (selected: string[]) => void, children: string }) {
-  const name = children(() => props.children)() as string;
-  const id = `select-${name.toLowerCase()}`
+  function getCount<K extends keyof Class>(value: string, key: K) {
+    return classes().reduce((count, [_, classes]) => count + classes.filter((c) => value === c[key]).length, 0)
+  }
 
-  return <div class="w-full grid grid-cols-[1fr_auto] auto-rows-auto">
-    <label class="font-bold" for={id}>{name}</label>
-    <Show when={props.selected.length > 0}>
-      <button onClick={() => props.setSelected([])}>⨂</button>
-    </Show>
+  function Select(props: {
+    options: { value: string, count: number }[],
+    selected: string[],
+    setSelected: (selected: string[]) => void,
+    children: string
+  }) {
+    const name = children(() => props.children)() as string;
+    const id = `select-${name.toLowerCase()}`
 
-    <select
-      multiple
-      size={props.options.length}
-      class="w-full mt-4 col-span-full"
-      name={name.toLowerCase()}
-      id={id}
-      onChange={(e) => props.setSelected(Array.from(e.currentTarget.selectedOptions).map((o) => o.value))}
-    >
-      <For each={props.options}>{(option) =>
-        <option value={option} selected={props.selected.includes(option)}>{option}</option>
-      }</For>
-    </select>
-  </div>
+    return <div class="w-full grid grid-cols-[1fr_auto] auto-rows-auto">
+      <label class="font-bold" for={id}>{name}</label>
+      <Show when={props.selected.length > 0}>
+        <button onClick={() => props.setSelected([])}>⨂</button>
+      </Show>
+
+      <select
+        multiple
+        size={props.options.length}
+        class="w-full mt-4 col-span-full"
+        name={name.toLowerCase()}
+        id={id}
+        onChange={(e) => props.setSelected(Array.from(e.currentTarget.selectedOptions).map((o) => o.value))}
+      >
+        <For each={props.options}>{({ value, count: c }) => <option value={value} selected={props.selected.includes(value)}>{value} ({c})</option>}</For>
+      </select>
+    </div>
+  }
 }
 
 function Day(props: { date: Date, classes: Class[] }) {
