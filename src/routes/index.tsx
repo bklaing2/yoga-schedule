@@ -52,7 +52,7 @@ function App() {
         </Select>
       </aside >
 
-      <main class="grid grid-cols-[repeat(2,max-content)_1fr_1fr] gap-10 w-full overflow-y-scroll">
+      <main class="grid grid-cols-[repeat(4,max-content)] gap-10 w-full overflow-y-scroll">
         <ul class="contents">
           <For each={filteredClasses()}>{([date, classes]) => <li class="contents">
             <Day date={decodeDate(date)} classes={classes} />
