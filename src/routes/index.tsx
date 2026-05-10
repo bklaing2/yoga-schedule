@@ -122,8 +122,8 @@ function Day(props: { date: Date, classes: Class[] }) {
       <span class="font-light text-gray-400"> | {props.classes.length} classes</span>
     </h3>
     <ul class="contents">
-      <For each={props.classes}>{(c) =>
-        <li class={`col-span-full grid grid-cols-subgrid px-4 py-0.5`}>
+      <For each={props.classes}>{(c, i) =>
+        <li class={`col-span-full grid grid-cols-subgrid ${i() % 2 !== 0 ? "bg-lagoon/5" : ""} px-4 py-0.5`}>
           <ClassItem {...c} />
         </li>
       }</For>
