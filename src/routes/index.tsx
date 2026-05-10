@@ -100,17 +100,25 @@ function App() {
   }
 }
 
-const FORMAT_OPTIONS: Intl.DateTimeFormatOptions = {
+// Sun, Jan 1 
+const DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   day: 'numeric',
   weekday: 'short',
   month: 'long',
   year: undefined,
 }
 
+// 12:00 PM
+const TIME_OPTIONS: Intl.DateTimeFormatOptions = {
+  second: undefined,
+  minute: 'numeric',
+  hour: 'numeric',
+}
+
 function Day(props: { date: Date, classes: Class[] }) {
   return <div class="col-span-full grid grid-cols-subgrid">
     <h3 class="col-span-full mb-4">
-      <span class="font-bold">{props.date.toLocaleDateString("en-US", FORMAT_OPTIONS)}</span>
+      <span class="font-bold">{props.date.toLocaleDateString("en-US", DATE_OPTIONS)}</span>
       <span class="font-light text-gray-400"> | {props.classes.length} classes</span>
     </h3>
     <ul class="contents">
@@ -124,9 +132,19 @@ function Day(props: { date: Date, classes: Class[] }) {
 function ClassItem(props: Class) {
   return <>
     <span>{props.name}</span>
-    <span>{props.startTime.toLocaleTimeString("en-US")}</span>
-    <span>{props.endTime.toLocaleTimeString("en-US")}</span>
+    <span>{formatTime(props.startTime)}</span>
+    <span>{formatTime(props.endTime)}</span>
     <span>{props.instructor}</span>
     <span>{props.host}</span>
   </>
+}
+
+// 12:00pm or 12pm
+function formatTime(date: Date) {
+  const dateStr = date.toLocaleTimeString("en-US", { ...TIME_OPTIONS, minute: date.getMinutes() === 0 ? undefined : TIME_OPTIONS.minute })
+
+  return dateStr
+    .split(" ")
+    .join("")
+    .toLowerCase()
 }
