@@ -131,14 +131,12 @@ function Day(props: { date: Date, classes: Class[] }) {
   </div>
 }
 
-function ClassItem(props: Class) {
-  return <>
-    <span>{props.name}</span>
-    <span>{formatTime(props.startTime)}<span class="text-gray-400"> - {formatTime(props.endTime)}</span></span>
-    <span>{props.instructor}</span>
-    <span class="text-gray-400">{props.host}</span>
-  </>
-}
+const ClassItem = (props: Class) => <>
+  <span>{props.name}</span>
+  <span>{formatTime(props.startTime)}<span class="text-gray-400"> - {formatTime(props.endTime)}</span></span>
+  <span>{props.instructor}</span>
+  <span class="text-gray-400">{props.host}</span>
+</>
 
 // 12:00pm or 12pm
 function formatTime(date: Date) {
