@@ -100,9 +100,19 @@ function App() {
   }
 }
 
+const FORMAT_OPTIONS: Intl.DateTimeFormatOptions = {
+  day: 'numeric',
+  weekday: 'short',
+  month: 'long',
+  year: undefined,
+}
+
 function Day(props: { date: Date, classes: Class[] }) {
   return <div class="col-span-full grid grid-cols-subgrid">
-    <h3 class="font-bold col-span-full mb-4">{props.date.toISOString().split("T")[0]}:  {props.classes.length} classes</h3>
+    <h3 class="col-span-full mb-4">
+      <span class="font-bold">{props.date.toLocaleDateString("en-US", FORMAT_OPTIONS)}</span>
+      <span class="font-light text-gray-400"> | {props.classes.length} classes</span>
+    </h3>
     <ul class="contents">
       <For each={props.classes}>{(c) => <li class="contents">
         <ClassItem {...c} />
