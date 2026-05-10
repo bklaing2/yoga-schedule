@@ -79,12 +79,16 @@ function App() {
   }) {
     const name = children(() => props.children)() as string;
     const id = `select-${name.toLowerCase()}`
+    const showClear = () => props.selected.length > 0
 
     return <div class="w-full grid grid-cols-[1fr_auto] auto-rows-auto">
       <label class="font-bold" for={id}>{name}</label>
-      <Show when={props.selected.length > 0}>
-        <button onClick={() => props.setSelected([])}>⨂</button>
-      </Show>
+      <button
+        class={`text-rose-600/50 hover:text-rose-500 text-lg text-shadow-lagoon/50 ${showClear() ? "cursor-pointer" : "opacity-0"}`}
+        onClick={() => props.setSelected([])}
+      >
+        ✘
+      </button>
 
       <select
         multiple
