@@ -94,7 +94,7 @@ function App() {
         id={id}
         onChange={(e) => props.setSelected(Array.from(e.currentTarget.selectedOptions).map((o) => o.value))}
       >
-        <For each={props.options}>{({ value, count: c }) => <option value={value} selected={props.selected.includes(value)}>{value} <span class="font-light text-gray-400">({c})</span></option>}</For>
+        <For each={props.options}>{({ value, count: c }) => <option value={value} selected={props.selected.includes(value)}>{value} ({c})</option>}</For>
       </select>
     </div>
   }
