@@ -3,11 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite dev --port 3000",
-    "build": "vite build",
-    "start": "node .output/server/index.mjs",
-    "preview": "vite preview",
-    "test": "vitest run",
+    "dev": "TZ='America/Chicago' vite dev --port 3000",
+    "build": "TZ='America/Chicago' vite build",
+    "start": "TZ='America/Chicago' node dist/server/server.js",
+    "preview": "TZ='America/Chicago' vite preview",
+    "test": "TZ='America/Chicago'vitest run",
     "format": "biome format",
     "lint": "biome lint",
     "check": "biome check"
