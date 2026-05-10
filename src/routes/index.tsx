@@ -52,7 +52,7 @@ function App() {
         </Select>
       </aside >
 
-      <main class="grid grid-cols-[repeat(3,max-content)_1fr_1fr] gap-10 w-full overflow-y-scroll">
+      <main class="grid grid-cols-[repeat(2,max-content)_1fr_1fr] gap-10 w-full overflow-y-scroll">
         <ul class="contents">
           <For each={filteredClasses()}>{([date, classes]) => <li class="contents">
             <Day date={decodeDate(date)} classes={classes} />
@@ -132,8 +132,7 @@ function Day(props: { date: Date, classes: Class[] }) {
 function ClassItem(props: Class) {
   return <>
     <span>{props.name}</span>
-    <span>{formatTime(props.startTime)}</span>
-    <span>{formatTime(props.endTime)}</span>
+    <span>{formatTime(props.startTime)}<span class="text-gray-400"> - {formatTime(props.endTime)}</span></span>
     <span>{props.instructor}</span>
     <span>{props.host}</span>
   </>
