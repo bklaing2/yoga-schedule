@@ -25,7 +25,7 @@ jobs:
           VITE_YOGAZAMA_URL: ${{ secrets.YOGAZAMA_URL }}
           VITE_V12YOGA_URL: ${{ secrets.V12YOGA_URL }}
           VITE_PILATESMETHODOLOGY_URL: ${{ secrets.PILATESMETHODOLOGY_URL }}
-        run: bun run build
+        run: TZ='America/Chicago' bun run build
 
       # Upload only the client output
       - name: Upload static files as artifact
