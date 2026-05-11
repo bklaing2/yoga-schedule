@@ -10,6 +10,9 @@ export const Route = createFileRoute('/')({
   loader: () => fetchClasses()
 })
 
+const Star = () => "✰"
+const X = () => "✘"
+
 function App() {
   const classes = Route.useLoaderData()
 
@@ -56,11 +59,11 @@ function App() {
     <>
       <aside class="w-full flex flex-col gap-10 pr-10 overflow-y-scroll rounded-t-xl">
         <div class="sticky top-0 flex items-center gap-4">
-          <button onClick={filterByFavorites} class="w-full py-3 bg-lagoon-deep/5 rounded-xl backdrop-blur-md"><span class="text-shadow-lg text-shadow-lagoon/20">
-            ✰</span> Filter by Favorites
+          <button onClick={filterByFavorites} class="w-full py-3 bg-lagoon-deep/5 rounded-xl backdrop-blur-md">
+            <span class="text-shadow-lg text-shadow-lagoon/20"><Star /></span> Filter by Favorites
           </button>
           <button onClick={clearFilters} class="w-full py-3 bg-rose-600/5 rounded-xl backdrop-blur-md">
-            <span class="text-rose-600/50 hover:text-rose-500">✘</span> Clear all Filters
+            <span class="text-rose-600/50 hover:text-rose-500"><X /></span> Clear all Filters
           </button>
         </div>
 
@@ -161,7 +164,7 @@ function App() {
               toggleFavorite(value)
               setFavorites(getFavorites())
             }}
-          >{isFavorited() ? "✰" : ""} {value} ({c})
+          >{isFavorited() ? <Star /> : ""} {value} ({c})
           </option>
         }}</For>
       </select>
@@ -188,8 +191,8 @@ function App() {
     const isFavoriteClass = () => favorites().includes(props.name)
     const isFavoriteInstructor = () => favorites().includes(props.instructor)
 
-    const classStar = <span class={isFavoriteClass() ? "font-normal" : "invisible"}>✰</span>
-    const instructorStar = <span class={isFavoriteInstructor() ? "font-normal" : "invisible"}>✰</span>
+    const classStar = <span class={isFavoriteClass() ? "font-normal" : "invisible"}><Star /></span>
+    const instructorStar = <span class={isFavoriteInstructor() ? "font-normal" : "invisible"}><Star /></span>
     const startTime = formatTime(props.startTime)
     const endTime = <span class="text-gray-400"> - {formatTime(props.endTime)}</span>
 
