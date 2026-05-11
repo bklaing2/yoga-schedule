@@ -42,10 +42,21 @@ function App() {
     setSelectedInstructors([])
   }
 
+  const filterByFavorites = () => {
+    clearFilters()
+
+    setSelectedHosts(hosts().filter(h => favorites().includes(h)))
+    setSelectedClasses(classNames().filter(n => favorites().includes(n)))
+    setSelectedInstructors(instructors().filter(i => favorites().includes(i)))
+  }
+
   return (
     <>
       <aside class="w-full flex flex-col gap-10 pr-10 overflow-y-scroll rounded-t-xl">
         <div class="sticky top-0 flex items-center gap-4">
+          <button onClick={filterByFavorites} class="w-full py-3 bg-lagoon-deep/5 rounded-xl backdrop-blur-md"><span class="text-shadow-lg text-shadow-lagoon/20">
+            ✰</span> Filter by Favorites
+          </button>
           <button onClick={clearFilters} class="w-full py-3 bg-rose-600/5 rounded-xl backdrop-blur-md">
             <span class="text-rose-600/50 hover:text-rose-500">✘</span> Clear all Filters
           </button>
