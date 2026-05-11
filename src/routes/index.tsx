@@ -121,7 +121,6 @@ function App() {
   }) {
     const name = children(() => props.children)() as string;
     const id = `select-${name.toLowerCase()}`
-    const showClear = () => props.selected.length > 0
 
     const clearFilters = () => props.setSelected([])
     const filterByFavorites = () => {
@@ -129,20 +128,16 @@ function App() {
       props.setSelected(props.options.filter(o => favorites().includes(o.value)).map(o => o.value))
     }
 
+    const StarSection = () => <button onClick={filterByFavorites} class="text-lg text-shadow-lg text-shadow-lagoon/20">
+      <Star />
+    </button>
+    const XSection = () => <button onClick={clearFilters} class="text-rose-600/50 hover:text-rose-500 text-lg">
+      <X />
+    </button >
+
     return <div class="w-full grid grid-cols-[1fr_auto_auto] auto-rows-auto gap-x-1">
       <label class="font-bold" for={id}>{name}</label>
-      <button
-        onClick={filterByFavorites}
-        class="text-lg text-shadow-lg text-shadow-lagoon/20"
-      >
-        ✰
-      </button>
-      <button
-        onClick={clearFilters}
-        class={`text-rose-600/50 hover:text-rose-500 text-lg ${showClear() ? "" : "invisible cursor-default!"}`}
-      >
-        ✘
-      </button>
+      {props.selected.length === 0 ? <StarSection /> : <XSection />}
 
       <select
         multiple
