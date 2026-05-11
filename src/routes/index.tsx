@@ -36,9 +36,21 @@ function App() {
     (selectedInstructors().length === 0 || selectedInstructors().includes(c.instructor))
   )] as const)
 
+  const clearFilters = () => {
+    setSelectedHosts([])
+    setSelectedClasses([])
+    setSelectedInstructors([])
+  }
+
   return (
     <>
-      <aside class="w-full flex flex-col gap-10 pr-10 overflow-y-scroll">
+      <aside class="w-full flex flex-col gap-10 pr-10 overflow-y-scroll rounded-t-xl">
+        <div class="sticky top-0 flex items-center gap-4">
+          <button onClick={clearFilters} class="w-full py-3 bg-rose-600/5 rounded-xl backdrop-blur-md">
+            <span class="text-rose-600/50 hover:text-rose-500">✘</span> Clear all Filters
+          </button>
+        </div>
+
         <Select
           options={hosts().map(value => ({ value, count: getCount(value, "host") }))}
           selected={selectedHosts()}
