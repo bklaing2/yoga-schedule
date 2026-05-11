@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/solid-router'
-import { children, createEffect, createSignal, For, onMount } from 'solid-js'
+import { children, createSignal, For, onMount } from 'solid-js'
 import { fetchClasses } from '../queries';
 import type { Class } from '../types';
 import { decodeDate } from '../util';
