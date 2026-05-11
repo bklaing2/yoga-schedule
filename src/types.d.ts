@@ -7,6 +7,61 @@ export type Class = {
   // _raw: UptownClass | YogaZamaClass | Document | PilatesMethodologyClass
 }
 
+export type PilatesMethodologyResponse = {
+  payload: PilatesMethodologyClass[]
+  pagination: {
+    page: number
+    pageSize: number
+    totalCount: number
+  }
+}
+
+export type PilatesMethodologyClass = {
+  sessionName: string
+  level: string // description
+  startsAt: string
+  endsAt: string
+  durationMinutes: number
+  teacher: string
+
+  capacity: number
+  id: number
+  hostId: number
+  remainingSpots: {
+    remaining: number
+    total: number
+  }
+
+  type: string
+  image: string
+  allowWaitlist: boolean
+  link: string
+  location: string
+  locationId: number
+  inPerson: boolean
+  price: unknown | null
+  fixedTicketPrice: number
+  dynamicTicketPriceMin: unknown | null
+  ticketsSold: number
+  freeEvent: boolean
+  ticketPriceType: string
+  teacherId: number
+  teacherPicture: string
+  teacherHasBio: boolean
+  originalTeacher: string
+  originalTeacherId: number
+  additionalTeachers: []
+  semester: unknown | null
+  course: unknown | null
+  isCancelled: boolean
+  waitlistCapacity: unknown | null
+  waitlistFull: boolean
+  requireMembershipBooking: boolean
+  currency: string
+  salesCutoff: unknown | null
+  priceInEventCredits: string
+}
+
 export type UptownResponse = {
   data: {
     allOfferings: null | unknown
@@ -115,6 +170,45 @@ export type UptownClass = {
   }[]
   hostName: string
 }
+
+export type V12YogaResponse = {
+  contents: string
+  use_iframe: boolean
+}
+
+// V12Yoga example contents:
+//
+// <tr
+//   class="hc_class"
+//   id="70181181754760"
+//   data-hc-id="70181181754760"
+//   data-hc-mbo-class="9"
+//   data-hc-trainer="100000038"
+//   data-hc-day="3"
+//   data-hc-time-of-day="1"
+//   data-hc-mbo-class-id="29618"
+//   data-hc-mbo-class-name="all_level_flow"
+// >
+//   <td class="session__details">
+//     <span class="hc_time">
+//       <span class="hc_starttime" data-datetime="&quot;2026-04-22T12:00:00.000+00:00&quot;">12:00 PM</span>
+//       <span class="hc_endtime" data-datetime="&quot;2026-04-22T13:00:00.000+00:00&quot;"> -  1:00 PM</span></span>
+//   </td>
+//   <td class="hc_cart_wrapper">
+//     <span class="hc_cart_button"></span>
+//     <span class="hc_class_availability"></span>
+//   </td>
+//   <td class="mbo_class">
+//     <span class="classname classindex_0 all_level_flow" id="item_29618_mbo_class"><a data-url="https://widgets.mindbodyonline.com/widgets/class_lists/821565604f8/class_description?site_mbo_id=141420&amp;class_description_id=9&amp;widget_type=Schedule" data-bw-identity-site="true" data-hc-open-modal="modal-iframe" rev="iframe" href="">All Level Flow</a></span>
+//   </td>
+//   <td class="trainer">
+//     <span class="trainer" id="item_29618_trainer">
+//       <a data-url="https://widgets.mindbodyonline.com/widgets/staff_lists/821565604f8/staff?site_mbo_id=141420&amp;staff_id=100000038&amp;widget_type=Schedule" data-bw-identity-site="true" data-hc-open-modal="modal-iframe" rev="iframe" href="">
+//         Sean Beiersdorfer
+//       </a>
+//     </span>
+//   </td>
+// </tr>
 
 export type YogaZamaResponse = {
   count: number
@@ -225,98 +319,4 @@ export type YogaZamaClass = {
   status: unknown | null
   waitlist_count: number
   reservations: []
-}
-
-export type V12YogaResponse = {
-  contents: string
-  use_iframe: boolean
-}
-
-// V12Yoga example contents:
-//
-// <tr
-//   class="hc_class"
-//   id="70181181754760"
-//   data-hc-id="70181181754760"
-//   data-hc-mbo-class="9"
-//   data-hc-trainer="100000038"
-//   data-hc-day="3"
-//   data-hc-time-of-day="1"
-//   data-hc-mbo-class-id="29618"
-//   data-hc-mbo-class-name="all_level_flow"
-// >
-//   <td class="session__details">
-//     <span class="hc_time">
-//       <span class="hc_starttime" data-datetime="&quot;2026-04-22T12:00:00.000+00:00&quot;">12:00 PM</span>
-//       <span class="hc_endtime" data-datetime="&quot;2026-04-22T13:00:00.000+00:00&quot;"> -  1:00 PM</span></span>
-//   </td>
-//   <td class="hc_cart_wrapper">
-//     <span class="hc_cart_button"></span>
-//     <span class="hc_class_availability"></span>
-//   </td>
-//   <td class="mbo_class">
-//     <span class="classname classindex_0 all_level_flow" id="item_29618_mbo_class"><a data-url="https://widgets.mindbodyonline.com/widgets/class_lists/821565604f8/class_description?site_mbo_id=141420&amp;class_description_id=9&amp;widget_type=Schedule" data-bw-identity-site="true" data-hc-open-modal="modal-iframe" rev="iframe" href="">All Level Flow</a></span>
-//   </td>
-//   <td class="trainer">
-//     <span class="trainer" id="item_29618_trainer">
-//       <a data-url="https://widgets.mindbodyonline.com/widgets/staff_lists/821565604f8/staff?site_mbo_id=141420&amp;staff_id=100000038&amp;widget_type=Schedule" data-bw-identity-site="true" data-hc-open-modal="modal-iframe" rev="iframe" href="">
-//         Sean Beiersdorfer
-//       </a>
-//     </span>
-//   </td>
-// </tr>
-
-export type PilatesMethodologyResponse = {
-  payload: PilatesMethodologyClass[]
-  pagination: {
-    page: number
-    pageSize: number
-    totalCount: number
-  }
-}
-
-export type PilatesMethodologyClass = {
-  sessionName: string
-  level: string // description
-  startsAt: string
-  endsAt: string
-  durationMinutes: number
-  teacher: string
-
-  capacity: number
-  id: number
-  hostId: number
-  remainingSpots: {
-    remaining: number
-    total: number
-  }
-
-  type: string
-  image: string
-  allowWaitlist: boolean
-  link: string
-  location: string
-  locationId: number
-  inPerson: boolean
-  price: unknown | null
-  fixedTicketPrice: number
-  dynamicTicketPriceMin: unknown | null
-  ticketsSold: number
-  freeEvent: boolean
-  ticketPriceType: string
-  teacherId: number
-  teacherPicture: string
-  teacherHasBio: boolean
-  originalTeacher: string
-  originalTeacherId: number
-  additionalTeachers: []
-  semester: unknown | null
-  course: unknown | null
-  isCancelled: boolean
-  waitlistCapacity: unknown | null
-  waitlistFull: boolean
-  requireMembershipBooking: boolean
-  currency: string
-  salesCutoff: unknown | null
-  priceInEventCredits: string
 }

@@ -6,10 +6,10 @@ import { createServerFn } from "@tanstack/solid-start"
 
 export const fetchClasses = createServerFn().handler(async () => {
   const allClasses = await Promise.all([
-    fetchUptown(),
-    fetchYogaZama(),
-    fetchV12Yoga(),
     fetchPilatesMethodology(),
+    fetchUptown(),
+    fetchV12Yoga(),
+    fetchYogaZama(),
   ])
 
   const classes = new Map<number, Class[]>()
@@ -36,6 +36,27 @@ export const fetchClasses = createServerFn().handler(async () => {
   return info(Array.from(classes.entries()), false)
 })
 
+async function fetchPilatesMethodology() {
+  const res = await fetch(HOSTS.pilatesMethodology.url)
+  const { payload: classes } = (await res.json()) as PilatesMethodologyResponse
+  return info(classes.filter((c) =>
+    !c.isCancelled
+  ).reduce((days, c) => {
+    const startTime = new Date(c.startsAt)
+    const key = encodeDate(startTime)
+    const day = days.get(key) ?? []
+    days.set(key, [...day, {
+      name: c.sessionName,
+      instructor: c.teacher,
+      startTime,
+      endTime: new Date(c.endsAt),
+      host: "Pilates Methodology",
+      // _raw: c,
+    }])
+    return days
+  }, new Map<number, Class[]>()))
+}
+
 async function fetchUptown() {
   const res = await fetch(HOSTS.uptown.url)
   const { data } = (await res.json()) as UptownResponse, { classes } = data
@@ -58,27 +79,6 @@ async function fetchUptown() {
     }])
     return days
   }, new Map<number, Class[]>())
-}
-
-async function fetchYogaZama() {
-  const res = await fetch(HOSTS.yogaZama.url)
-  const { results: classes } = (await res.json()) as YogaZamaResponse
-  return info(classes.filter((c) =>
-    !c.is_cancelled
-  ).reduce((days, c) => {
-    const startTime = new Date(`${c.start_date} ${c.start_time}`)
-    const key = encodeDate(startTime)
-    const day = days.get(key) ?? []
-    days.set(key, [...day, {
-      name: c.name,
-      instructor: c.instructors[0]?.name || "Unknown",
-      startTime,
-      endTime: new Date(startTime.getTime() + c.class_type.duration * MINUTE),
-      host: "YogaZama",
-      // _raw: c,
-    }])
-    return days
-  }, new Map<number, Class[]>()))
 }
 
 async function fetchV12Yoga() {
@@ -117,21 +117,21 @@ async function fetchV12Yoga() {
   }, new Map<number, Class[]>()))
 }
 
-async function fetchPilatesMethodology() {
-  const res = await fetch(HOSTS.pilatesMethodology.url)
-  const { payload: classes } = (await res.json()) as PilatesMethodologyResponse
+async function fetchYogaZama() {
+  const res = await fetch(HOSTS.yogaZama.url)
+  const { results: classes } = (await res.json()) as YogaZamaResponse
   return info(classes.filter((c) =>
-    !c.isCancelled
+    !c.is_cancelled
   ).reduce((days, c) => {
-    const startTime = new Date(c.startsAt)
+    const startTime = new Date(`${c.start_date} ${c.start_time}`)
     const key = encodeDate(startTime)
     const day = days.get(key) ?? []
     days.set(key, [...day, {
-      name: c.sessionName,
-      instructor: c.teacher,
+      name: c.name,
+      instructor: c.instructors[0]?.name || "Unknown",
       startTime,
-      endTime: new Date(c.endsAt),
-      host: "Pilates Methodology",
+      endTime: new Date(startTime.getTime() + c.class_type.duration * MINUTE),
+      host: "YogaZama",
       // _raw: c,
     }])
     return days
