@@ -30,11 +30,13 @@ function App() {
   const [selectedClasses, setSelectedClasses] = createSignal<string[]>([]);
   const [selectedInstructors, setSelectedInstructors] = createSignal<string[]>([]);
 
-  const filteredClasses = () => classes().map(([day, classes]) => [day, classes.filter(c =>
-    (selectedHosts().length === 0 || selectedHosts().includes(c.host)) &&
-    (selectedClasses().length === 0 || selectedClasses().includes(c.name)) &&
-    (selectedInstructors().length === 0 || selectedInstructors().includes(c.instructor))
-  )] as const)
+  const filteredClasses = () => classes().map(([day, classes]) => [day, classes.filter(c => {
+    if (selectedHosts().length === 0 && selectedClasses().length === 0 && selectedInstructors().length === 0) return true
+
+    return selectedHosts().includes(c.host) ||
+      selectedClasses().includes(c.name) ||
+      selectedInstructors().includes(c.instructor)
+  })] as const)
 
   const clearFilters = () => {
     setSelectedHosts([])
