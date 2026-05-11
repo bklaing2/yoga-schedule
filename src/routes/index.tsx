@@ -98,7 +98,7 @@ function App() {
     return <div class="w-full grid grid-cols-[1fr_auto] auto-rows-auto">
       <label class="font-bold" for={id}>{name}</label>
       <button
-        class={`text-rose-600/50 hover:text-rose-500 text-lg ${showClear() ? "cursor-pointer" : "opacity-0"}`}
+        class={showClear() ? "text-rose-600/50 hover:text-rose-500 text-lg" : "opacity-0 cursor-default!"}
         onClick={() => props.setSelected([])}
       >
         ✘
