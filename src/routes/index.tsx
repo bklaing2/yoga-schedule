@@ -112,16 +112,21 @@ function App() {
         id={id}
         onChange={(e) => props.setSelected(Array.from(e.currentTarget.selectedOptions).map((o) => o.value))}
       >
-        <For each={props.options}>{({ value, count: c }) => <option
-          value={value}
-          selected={props.selected.includes(value)}
-          onContextMenu={(e) => {
-            e.preventDefault()
-            toggleFavorite(value)
-            setFavorites(getFavorites())
-          }}
-        >{favorites().includes(value) ? "✰" : ""} {value} ({c})
-        </option>}</For>
+        <For each={props.options}>{({ value, count: c }) => {
+          const isFavorited = () => favorites().includes(value)
+
+          return <option
+            value={value}
+            selected={props.selected.includes(value)}
+            class={isFavorited() ? "text-shadow-lg text-shadow-lagoon/20" : "text-gray-400"}
+            onContextMenu={(e) => {
+              e.preventDefault()
+              toggleFavorite(value)
+              setFavorites(getFavorites())
+            }}
+          >{isFavorited() ? "✰" : ""} {value} ({c})
+          </option>
+        }}</For>
       </select>
     </div>
   }
