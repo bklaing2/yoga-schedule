@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/solid-router'
-import { children, createSignal, For, onMount } from 'solid-js'
+import { children, createEffect, createSignal, For, onMount } from 'solid-js'
 import { fetchClasses } from '../queries';
 import type { Class } from '../types';
 import { decodeDate } from '../util';
@@ -147,7 +147,8 @@ function App() {
       props.setSelected(props.options.filter(o => favorites().includes(o.value)).map(o => o.value))
     }
 
-    const StarSection = () => <button onClick={filterByFavorites} class="text-lg text-shadow-lg text-shadow-lagoon/20">
+    const favoriteCount = () => props.options.filter(o => favorites().includes(o.value)).length
+    const StarSection = () => <button onClick={filterByFavorites} class={favoriteCount() > 0 ? "" : "invisible" + " text-lg text-shadow-lg text-shadow-lagoon/20"}>
       <Star />
     </button>
     const XSection = () => <button onClick={clearFilters} class="text-rose-600/50 hover:text-rose-500 text-lg">
