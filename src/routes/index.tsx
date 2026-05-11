@@ -120,11 +120,23 @@ function App() {
     const id = `select-${name.toLowerCase()}`
     const showClear = () => props.selected.length > 0
 
-    return <div class="w-full grid grid-cols-[1fr_auto] auto-rows-auto">
+    const clearFilters = () => props.setSelected([])
+    const filterByFavorites = () => {
+      clearFilters()
+      props.setSelected(props.options.filter(o => favorites().includes(o.value)).map(o => o.value))
+    }
+
+    return <div class="w-full grid grid-cols-[1fr_auto_auto] auto-rows-auto gap-x-1">
       <label class="font-bold" for={id}>{name}</label>
       <button
-        class={showClear() ? "text-rose-600/50 hover:text-rose-500 text-lg" : "opacity-0 cursor-default!"}
-        onClick={() => props.setSelected([])}
+        onClick={filterByFavorites}
+        class="text-lg text-shadow-lg text-shadow-lagoon/20"
+      >
+        ✰
+      </button>
+      <button
+        onClick={clearFilters}
+        class={`text-rose-600/50 hover:text-rose-500 text-lg ${showClear() ? "" : "opacity-0 cursor-default!"}`}
       >
         ✘
       </button>
