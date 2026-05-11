@@ -15,11 +15,8 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/router-plugin": "^1.133.21",
-    "@tanstack/solid-query": "latest",
-    "@tanstack/solid-query-devtools": "latest",
     "@tanstack/solid-router": "latest",
     "@tanstack/solid-router-devtools": "latest",
-    "@tanstack/solid-router-ssr-query": "latest",
     "@tanstack/solid-start": "latest",
     "jsdom": "^29.1.1",
     "solid-js": "^1.9.11",
