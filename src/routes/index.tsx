@@ -136,7 +136,7 @@ function App() {
       </button>
       <button
         onClick={clearFilters}
-        class={`text-rose-600/50 hover:text-rose-500 text-lg ${showClear() ? "" : "opacity-0 cursor-default!"}`}
+        class={`text-rose-600/50 hover:text-rose-500 text-lg ${showClear() ? "" : "invisible cursor-default!"}`}
       >
         ✘
       </button>
@@ -167,6 +167,43 @@ function App() {
       </select>
     </div>
   }
+
+  function Day(props: { date: Date, classes: Class[] }) {
+    return <div class="col-span-full grid grid-cols-subgrid">
+      <h3 class="col-span-full mb-4">
+        <span class="font-bold">{props.date.toLocaleDateString("en-US", DATE_OPTIONS)}</span>
+        <span class="font-light text-gray-400"> | {props.classes.length} classes</span>
+      </h3>
+      <ul class="contents">
+        <For each={props.classes}>{(c, i) =>
+          <li class={`col-span-full grid grid-cols-subgrid ${i() % 2 !== 0 ? "bg-lagoon/5" : ""} pl-1 pr-4 py-0.5`}>
+            <ClassItem {...c} />
+          </li>
+        }</For>
+      </ul>
+    </div>
+  }
+
+  function ClassItem(props: Class) {
+    const isFavoriteClass = () => favorites().includes(props.name)
+    const isFavoriteInstructor = () => favorites().includes(props.instructor)
+
+    const classStar = <span class={isFavoriteClass() ? "font-normal" : "invisible"}>✰</span>
+    const instructorStar = <span class={isFavoriteInstructor() ? "font-normal" : "invisible"}>✰</span>
+    const startTime = formatTime(props.startTime)
+    const endTime = <span class="text-gray-400"> - {formatTime(props.endTime)}</span>
+
+    return <>
+      <span class={isFavoriteClass() ? "font-semibold text-shadow-xs text-shadow-lagoon/30" : ""}>
+        {classStar} {props.name}
+      </span>
+      <span>{startTime}{endTime}</span>
+      <span class={isFavoriteInstructor() ? "font-semibold text-shadow-xs text-shadow-lagoon/30" : ""}>
+        {instructorStar} {props.instructor}
+      </span>
+      <span class="text-gray-400">{props.host}</span>
+    </>
+  }
 }
 
 // Sun, Jan 1 
@@ -183,29 +220,6 @@ const TIME_OPTIONS: Intl.DateTimeFormatOptions = {
   minute: 'numeric',
   hour: 'numeric',
 }
-
-function Day(props: { date: Date, classes: Class[] }) {
-  return <div class="col-span-full grid grid-cols-subgrid">
-    <h3 class="col-span-full mb-4">
-      <span class="font-bold">{props.date.toLocaleDateString("en-US", DATE_OPTIONS)}</span>
-      <span class="font-light text-gray-400"> | {props.classes.length} classes</span>
-    </h3>
-    <ul class="contents">
-      <For each={props.classes}>{(c, i) =>
-        <li class={`col-span-full grid grid-cols-subgrid ${i() % 2 !== 0 ? "bg-lagoon/5" : ""} px-4 py-0.5`}>
-          <ClassItem {...c} />
-        </li>
-      }</For>
-    </ul>
-  </div>
-}
-
-const ClassItem = (props: Class) => <>
-  <span>{props.name}</span>
-  <span>{formatTime(props.startTime)}<span class="text-gray-400"> - {formatTime(props.endTime)}</span></span>
-  <span>{props.instructor}</span>
-  <span class="text-gray-400">{props.host}</span>
-</>
 
 // 12:00pm or 12pm
 function formatTime(date: Date) {
