@@ -1,8 +1,9 @@
 import { createFileRoute } from '@tanstack/solid-router'
-import { children, createSignal, For } from 'solid-js'
+import { children, createSignal, For, onMount } from 'solid-js'
 import { fetchClasses } from '../queries';
 import type { Class } from '../types';
 import { decodeDate } from '../util';
+import { getFavorites, toggleFavorite } from '@/storage';
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -11,6 +12,19 @@ export const Route = createFileRoute('/')({
 
 function App() {
   const classes = Route.useLoaderData()
+
+  const [initialFavorites, setInitialFavorites] = createSignal<string[]>([])
+  const [favorites, setFavorites] = createSignal<string[]>([])
+
+  const hosts = () => getValues("host")
+  const classNames = () => getValues("name")
+  const instructors = () => getValues("instructor")
+
+  onMount(() => {
+    const favorites = getFavorites()
+    setInitialFavorites(favorites)
+    setFavorites(favorites)
+  })
 
   const [selectedHosts, setSelectedHosts] = createSignal<string[]>([]);
   const [selectedClasses, setSelectedClasses] = createSignal<string[]>([]);
@@ -21,10 +35,6 @@ function App() {
     (selectedClasses().length === 0 || selectedClasses().includes(c.name)) &&
     (selectedInstructors().length === 0 || selectedInstructors().includes(c.instructor))
   )] as const)
-
-  const hosts = () => getValues("host")
-  const classNames = () => getValues("name")
-  const instructors = () => getValues("instructor")
 
   return (
     <>
@@ -64,7 +74,11 @@ function App() {
   )
 
   function getValues<K extends keyof Class>(key: K) {
-    return Array.from(new Set(classes().flatMap(([_, classes]) => classes.map(c => c[key])))).sort()
+    const values = Array.from(new Set(classes().flatMap(([_, classes]) => classes.map(c => c[key])))).sort()
+    return [
+      ...values.filter(v => initialFavorites().includes(v.toString())),
+      ...values.filter(v => !initialFavorites().includes(v.toString()))
+    ]
   }
 
   function getCount<K extends keyof Class>(value: string, key: K) {
@@ -98,7 +112,16 @@ function App() {
         id={id}
         onChange={(e) => props.setSelected(Array.from(e.currentTarget.selectedOptions).map((o) => o.value))}
       >
-        <For each={props.options}>{({ value, count: c }) => <option value={value} selected={props.selected.includes(value)}>{value} ({c})</option>}</For>
+        <For each={props.options}>{({ value, count: c }) => <option
+          value={value}
+          selected={props.selected.includes(value)}
+          onContextMenu={(e) => {
+            e.preventDefault()
+            toggleFavorite(value)
+            setFavorites(getFavorites())
+          }}
+        >{favorites().includes(value) ? "✰" : ""} {value} ({c})
+        </option>}</For>
       </select>
     </div>
   }
