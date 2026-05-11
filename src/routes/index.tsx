@@ -4,6 +4,7 @@ import { fetchClasses } from '../queries';
 import type { Class } from '../types';
 import { decodeDate } from '../util';
 import { getFavorites, toggleFavorite } from '@/storage';
+import { HOSTS } from '@/constants';
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -12,6 +13,9 @@ export const Route = createFileRoute('/')({
 
 const Star = () => "✰"
 const X = () => "✘"
+
+const HEADER_CLASSES = " min-h-26 sticky top-0 flex items-center gap-4 pt-8 pb-4 backdrop-blur-md " as const
+const BUTTON_CLASSES = " h-full flex items-center gap-2 px-8 rounded-xl whitespace-nowrap " as const
 
 function App() {
   const classes = Route.useLoaderData()
@@ -57,12 +61,12 @@ function App() {
 
   return (
     <>
-      <aside class="w-full flex flex-col gap-10 pr-10 overflow-y-scroll rounded-t-xl">
-        <div class="sticky top-0 flex items-center gap-4">
-          <button onClick={filterByFavorites} class="w-full py-3 bg-lagoon-deep/5 rounded-xl backdrop-blur-md">
+      <aside class="flex flex-col gap-10 overflow-y-scroll rounded-t-xl min-w-max">
+        <div class={"pl-16 pr-8" + HEADER_CLASSES}>
+          <button onClick={filterByFavorites} class={"bg-lagoon-deep/5" + BUTTON_CLASSES}>
             <span class="text-shadow-lg text-shadow-lagoon/20"><Star /></span> Filter by Favorites
           </button>
-          <button onClick={clearFilters} class="w-full py-3 bg-rose-600/5 rounded-xl backdrop-blur-md">
+          <button onClick={clearFilters} class={"bg-rose-600/5" + BUTTON_CLASSES}>
             <span class="text-rose-600/50 hover:text-rose-500"><X /></span> Clear all Filters
           </button>
         </div>
@@ -90,7 +94,22 @@ function App() {
         </Select>
       </aside >
 
-      <main class="grid grid-cols-[repeat(4,max-content)] gap-10 w-full overflow-y-scroll">
+      <main class="grid grid-cols-[repeat(3,max-content)_1fr] gap-10 w-full overflow-y-scroll">
+        <div class={"pl-8 pr-16 col-span-full justify-end" + HEADER_CLASSES}>
+          <a class={"bg-[rgb(238,239,234)] align-middle" + BUTTON_CLASSES} /* font: Gotham Light */ href={HOSTS.pilatesMethodology.href}>
+            Pilates Methodology
+          </a>
+          <a class={"text-white bg-[rgb(202,159,49)]" + BUTTON_CLASSES} /* font: Open Sans */ href={HOSTS.uptown.href}>
+            Uptown Yoga
+          </a>
+          <a class={"text-white bg-[rgb(255,0,0)]" + BUTTON_CLASSES} /* font: Helvetica */ href={HOSTS.v12Yoga.href}>
+            V12yoga
+          </a>
+          <a class={"text-white bg-[rgb(245,126,33)]" + BUTTON_CLASSES} /* font: Lastone */ href={HOSTS.yogaZama.href}>
+            YogaZama
+          </a>
+        </div>
+
         <ul class="contents">
           <For each={filteredClasses()}>{([date, classes]) => <li class="contents">
             <Day date={decodeDate(date)} classes={classes} />
@@ -135,7 +154,7 @@ function App() {
       <X />
     </button >
 
-    return <div class="w-full grid grid-cols-[1fr_auto_auto] auto-rows-auto gap-x-1">
+    return <div class="w-full grid grid-cols-[1fr_auto_auto] auto-rows-auto gap-x-1 pl-16 pr-8">
       <label class="font-bold" for={id}>{name}</label>
       {props.selected.length === 0 ? <StarSection /> : <XSection />}
 
@@ -167,7 +186,7 @@ function App() {
   }
 
   function Day(props: { date: Date, classes: Class[] }) {
-    return <div class="col-span-full grid grid-cols-subgrid">
+    return <div class="col-span-full grid grid-cols-subgrid pr-16 pl-8">
       <h3 class="col-span-full mb-4">
         <span class="font-bold">{props.date.toLocaleDateString("en-US", DATE_OPTIONS)}</span>
         <span class="font-light text-gray-400"> | {props.classes.length} classes</span>

@@ -28,7 +28,7 @@ function RootComponent() {
       <head>
         <HydrationScript />
       </head>
-      <body class="h-screen grid grid-cols-[max-content_1fr] gap-20 pl-16 pt-8 justify-center">
+      <body class="h-screen flex justify-start">
         <HeadContent />
         <Suspense>
           <Outlet />
