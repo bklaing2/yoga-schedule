@@ -211,15 +211,30 @@ function App() {
     const startTime = formatTime(props.startTime)
     const endTime = <span class="text-gray-400"> - {formatTime(props.endTime)}</span>
 
+    function onClassClick() {
+      clearFilters()
+      setSelectedClasses([props.name])
+    }
+
+    function onInstructorClick() {
+      clearFilters()
+      setSelectedInstructors([props.instructor])
+    }
+
+    function onHostClick() {
+      clearFilters()
+      setSelectedHosts([props.host])
+    }
+
     return <>
-      <span class={isFavoriteClass() ? "font-semibold text-shadow-xs text-shadow-lagoon/30" : ""}>
+      <button onClick={onClassClick} class={"text-left " + (isFavoriteClass() ? "font-semibold text-shadow-xs text-shadow-lagoon/30" : "")}>
         {classStar} {props.name}
-      </span>
+      </button>
       <span>{startTime}{endTime}</span>
-      <span class={isFavoriteInstructor() ? "font-semibold text-shadow-xs text-shadow-lagoon/30" : ""}>
+      <button onClick={onInstructorClick} class={"text-left " + (isFavoriteInstructor() ? "font-semibold text-shadow-xs text-shadow-lagoon/30" : "")}>
         {instructorStar} {props.instructor}
-      </span>
-      <span class="text-gray-400">{props.host}</span>
+      </button>
+      <button onClick={onHostClick} class="text-left text-gray-400">{props.host}</button>
     </>
   }
 }
