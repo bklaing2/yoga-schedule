@@ -173,7 +173,7 @@ function App() {
           return <option
             value={value}
             selected={props.selected.includes(value)}
-            class={isFavorited() ? "text-shadow-lg text-shadow-lagoon/20" : "text-gray-400"}
+            class={(isFavorited() ? "text-shadow-lg text-shadow-lagoon/20" : "text-gray-400") + " hover:bg-lagoon/5 rounded-md"}
             onContextMenu={(e) => {
               e.preventDefault()
               toggleFavorite(value)

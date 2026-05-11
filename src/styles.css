@@ -82,6 +82,7 @@ a {
 }
 
 a,
-button {
+button,
+option {
   cursor: pointer;
 }
