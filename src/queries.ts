@@ -1,8 +1,8 @@
-import { HOSTS, MINUTE, SECOND } from "./constants"
 import { JSDOM } from "jsdom"
-import type { Class, PilatesMethodologyResponse, UptownResponse, V12YogaResponse, YogaZamaResponse } from "./types"
-import { encodeDate, info } from "./util"
 import { createServerFn } from "@tanstack/solid-start"
+import { HOSTS, MINUTE, SECOND } from "@/constants"
+import type { Class, PilatesMethodologyResponse, UptownResponse, V12YogaResponse, YogaZamaResponse } from "@/types"
+import { encodeDate, info } from "@/util"
 
 export const fetchClasses = createServerFn().handler(async () => {
   const allClasses = await Promise.all([

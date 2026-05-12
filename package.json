@@ -7,10 +7,11 @@
     "build": "TZ='America/Chicago' vite build",
     "start": "TZ='America/Chicago' node dist/server/server.js",
     "preview": "TZ='America/Chicago' vite preview",
-    "test": "TZ='America/Chicago'vitest run",
+    "test": "TZ='America/Chicago' vitest run",
     "format": "biome format",
     "lint": "biome lint",
-    "check": "biome check"
+    "check": "biome check",
+    "typecheck": "tsrx-tsc --noEmit"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
@@ -18,6 +19,8 @@
     "@tanstack/solid-router": "latest",
     "@tanstack/solid-router-devtools": "latest",
     "@tanstack/solid-start": "latest",
+    "@tsrx/solid": "^0.1.4",
+    "@tsrx/vite-plugin-solid": "^0.0.33",
     "jsdom": "^29.1.1",
     "solid-js": "^1.9.11",
     "tailwindcss": "^4.1.18",
@@ -26,10 +29,11 @@
   "devDependencies": {
     "@biomejs/biome": "2.4.5",
     "@tanstack/devtools-vite": "latest",
+    "@tsrx/typescript-plugin": "^0.3.54",
     "@types/jsdom": "^28.0.1",
     "typescript": "^5.7.2",
     "vite": "^7.3.1",
-    "vite-plugin-solid": "^2.11.10"
+    "vite-plugin-solid": "^2.11.12"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
