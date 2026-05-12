@@ -1,8 +1,11 @@
 {
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.tsrx"],
   "compilerOptions": {
     "target": "ES2022",
     "jsx": "preserve",
+    "plugins": [
+       { "name": "@tsrx/typescript-plugin" }
+     ],
     "jsxImportSource": "solid-js",
     "module": "ESNext",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
