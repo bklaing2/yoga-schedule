@@ -1,4 +1,4 @@
-import { simpleISO } from "./util"
+import { simpleISO } from "@/util"
 
 export const DEBUG = false
 

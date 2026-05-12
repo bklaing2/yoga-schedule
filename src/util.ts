@@ -1,4 +1,4 @@
-import { DEBUG } from "./constants"
+import { DEBUG } from "@/constants"
 
 export function info<T>(value: T, print = DEBUG) {
   if (print) console.info(value)
