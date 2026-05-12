@@ -21,6 +21,7 @@ Favorites are saved in `localStorage`.
 
 ## Technology Choices
 
+- [TSRX](https://tsrx.dev/) _(purely for fun)_
 - [SolidJS](https://github.com/solidjs/solid)
 - [TanStack Start](https://github.com/tanstack/router) _(prerender enabled)_
 - [Tailwind](https://github.com/tailwindlabs/tailwindcss)
