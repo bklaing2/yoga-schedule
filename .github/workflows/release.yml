@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: dist/client/
-        
+
   deploy:
     needs: build
     permissions:
@@ -50,7 +50,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-      
+
     runs-on: ubuntu-latest
 
     steps:
