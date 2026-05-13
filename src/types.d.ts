@@ -3,7 +3,7 @@ export type Class = {
   instructor: string
   startTime: Date
   endTime: Date
-  host: string
+  studio: string
   // _raw: UptownClass | YogaZamaClass | Document | PilatesMethodologyClass
 }
 

@@ -11,7 +11,7 @@ export const DAY = 24 * HOUR
 const TODAY = new Date(new Date().toDateString())
 const NEXT_WEEK = new Date(TODAY.getTime() + 7 * DAY)
 
-export const HOSTS = {
+export const STUDIOS = {
   pilatesMethodology: {
     href: import.meta.env.VITE_PILATESMETHODOLOGY_HREF,
     url: import.meta.env.VITE_PILATESMETHODOLOGY_URL

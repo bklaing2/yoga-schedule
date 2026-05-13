@@ -1,6 +1,6 @@
 import { JSDOM } from "jsdom"
 import { createServerFn } from "@tanstack/solid-start"
-import { HOSTS, MINUTE, SECOND } from "@/constants"
+import { STUDIOS, MINUTE, SECOND } from "@/constants"
 import type { Class, PilatesMethodologyResponse, UptownResponse, V12YogaResponse, YogaZamaResponse } from "@/types"
 import { encodeDate, info } from "@/util"
 
@@ -37,7 +37,7 @@ export const fetchClasses = createServerFn().handler(async () => {
 })
 
 async function fetchPilatesMethodology() {
-  const res = await fetch(HOSTS.pilatesMethodology.url)
+  const res = await fetch(STUDIOS.pilatesMethodology.url)
   const { payload: classes } = (await res.json()) as PilatesMethodologyResponse
   return info(classes.filter((c) =>
     !c.isCancelled
@@ -50,7 +50,7 @@ async function fetchPilatesMethodology() {
       instructor: c.teacher,
       startTime,
       endTime: new Date(c.endsAt),
-      host: "Pilates Methodology",
+      studio: "Pilates Methodology",
       // _raw: c,
     }])
     return days
@@ -58,7 +58,7 @@ async function fetchPilatesMethodology() {
 }
 
 async function fetchUptown() {
-  const res = await fetch(HOSTS.uptown.url)
+  const res = await fetch(STUDIOS.uptown.url)
   const { data } = (await res.json()) as UptownResponse, { classes } = data
   return classes.filter((c) =>
     c.location.name.toLowerCase().includes("uptown") &&
@@ -74,7 +74,7 @@ async function fetchUptown() {
       instructor: c.host_name,
       startTime,
       endTime: new Date(c.end_time * SECOND),
-      host: "Uptown Yoga",
+      studio: "Uptown Yoga",
       // _raw: c,
     }])
     return days
@@ -82,7 +82,7 @@ async function fetchUptown() {
 }
 
 async function fetchV12Yoga() {
-  const res = await fetch(HOSTS.v12Yoga.url)
+  const res = await fetch(STUDIOS.v12Yoga.url)
   const { contents } = (await res.json()) as V12YogaResponse
   const { window: { document } } = new JSDOM(contents)
   const rows = document.getElementsByTagName("tr")
@@ -104,7 +104,7 @@ async function fetchV12Yoga() {
       instructor: row.getElementsByClassName("trainer")[1].textContent,
       startTime: new Date(startTimeRaw.substring(1, startTimeRaw.length - 7)),
       endTime: new Date(endTimeRaw.substring(1, endTimeRaw.length - 7)),
-      host: "V12yoga",
+      studio: "V12yoga",
       // _raw: document
     })
   }
@@ -118,7 +118,7 @@ async function fetchV12Yoga() {
 }
 
 async function fetchYogaZama() {
-  const res = await fetch(HOSTS.yogaZama.url)
+  const res = await fetch(STUDIOS.yogaZama.url)
   const { results: classes } = (await res.json()) as YogaZamaResponse
   return info(classes.filter((c) =>
     !c.is_cancelled
@@ -131,7 +131,7 @@ async function fetchYogaZama() {
       instructor: c.instructors[0]?.name || "Unknown",
       startTime,
       endTime: new Date(startTime.getTime() + c.class_type.duration * MINUTE),
-      host: "YogaZama",
+      studio: "YogaZama",
       // _raw: c,
     }])
     return days

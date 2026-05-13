@@ -1,6 +1,6 @@
 import type { ComponentProps } from "solid-js"
 import { Star, X } from "@/components/Misc.tsrx"
-import { HOSTS } from "@/constants"
+import { STUDIOS } from "@/constants"
 import { useFavorite, useFilter } from "@/context.tsrx"
 
 const HEADER_CLASSES = " min-h-26 sticky top-0 flex items-center gap-4 pt-8 pb-4 backdrop-blur-md " as const
@@ -48,7 +48,7 @@ export component PilatesMethodologyLink(props: ComponentProps<"a">) {
   // font: Gotham Light
   <a
     class={"bg-[rgb(238,239,234)]" + BUTTON_CLASSES}
-    href={HOSTS.pilatesMethodology.href}
+    href={STUDIOS.pilatesMethodology.href}
     {...props}
   >
     "Pilates Methodology"
@@ -59,7 +59,7 @@ export component UptownLink(props: ComponentProps<"a">) {
   // font: Open Sans
   <a
     class={"bg-[rgb(202,159,49)] text-white" + BUTTON_CLASSES}
-    href={HOSTS.uptown.href}
+    href={STUDIOS.uptown.href}
     {...props}
   >
     "Uptown Yoga"
@@ -70,7 +70,7 @@ export component V12YogaLink(props: ComponentProps<"a">) {
   // font: Helvetica
   <a
     class={"bg-[rgb(255,0,0)] text-white" + BUTTON_CLASSES}
-    href={HOSTS.v12Yoga.href}
+    href={STUDIOS.v12Yoga.href}
     {...props}
   >
     "V12yoga"
@@ -81,7 +81,7 @@ export component YogaZamaLink(props: ComponentProps<"a">) {
   // font: Helvetica
   <a
     class={"bg-[rgb(245,126,33)] text-white" + BUTTON_CLASSES}
-    href={HOSTS.yogaZama.href}
+    href={STUDIOS.yogaZama.href}
     {...props}
   >
     "YogaZama"

@@ -25,7 +25,7 @@ function Home() {
 
   const favorites = useFavoriteValue()()
 
-  const hosts = collectOptions("host")
+  const studios = collectOptions("studio")
   const classNames = collectOptions("name")
   const instructors = collectOptions("instructor")
 
@@ -49,7 +49,7 @@ function Home() {
           <ClearFilters />
         </SidebarHeader>
 
-        <Section options={hosts}>Locations</Section>
+        <Section options={studios}>Studios</Section>
         <Section options={classNames}>Classes</Section>
         <Section options={instructors}>Instructors</Section>
       </Sidebar>

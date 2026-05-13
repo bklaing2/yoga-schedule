@@ -13,7 +13,7 @@ export component Schedule(props: { classes: (readonly[number, Class[]])[] }) {
   const filters = useFilterValue()
 
   const filteredClasses = () => props.classes.map(([day, classes]) => [day, classes.filter(c =>
-    filters().length === 0 || filters().some(s => [c.host, c.name, c.instructor].includes(s))
+    filters().length === 0 || filters().some(s => [c.studio, c.name, c.instructor].includes(s))
   )] as const)
 
   <ul class="contents">
@@ -86,6 +86,6 @@ component ClassItem(props: Class & { stripe: boolean }) {
       <span class={isFavoriteInstructor() ? "font-normal" : "invisible"}><Star /></span>
       " "{props.instructor}
     </button>
-    <button onClick={() => setFilters([props.host])} class="text-left text-gray-400">{props.host}</button>
+    <button onClick={() => setFilters([props.studio])} class="text-left text-gray-400">{props.studio}</button>
   </li>
 }
