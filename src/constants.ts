@@ -14,22 +14,22 @@ const NEXT_WEEK = new Date(TODAY.getTime() + 7 * DAY)
 export const STUDIOS = {
   pilatesMethodology: {
     href: import.meta.env.VITE_PILATESMETHODOLOGY_HREF,
-    url: import.meta.env.VITE_PILATESMETHODOLOGY_URL
+    api: (process.env.PILATESMETHODOLOGY_API || "")
       .replace("{FROM}", simpleISO(TODAY))
       .replace("{TO}", simpleISO(NEXT_WEEK))
   },
   uptown: {
     href: import.meta.env.VITE_UPTOWN_HREF,
-    url: import.meta.env.VITE_UPTOWN_URL
-      .replace("{FROM}", TODAY.valueOf() / SECOND)
+    api: (process.env.UPTOWN_API || "")
+      .replace("{FROM}", (TODAY.valueOf() / SECOND).toString())
   },
   v12Yoga: {
     href: import.meta.env.VITE_V12YOGA_HREF,
-    url: import.meta.env.VITE_V12YOGA_URL
+    api: process.env.V12YOGA_API || ""
   },
   yogaZama: {
     href: import.meta.env.VITE_YOGAZAMA_HREF,
-    url: import.meta.env.VITE_YOGAZAMA_URL
+    api: (process.env.YOGAZAMA_API || "")
       .replace("{FROM}", simpleISO(TODAY))
       .replace("{TO}", simpleISO(NEXT_WEEK))
   },

@@ -5,7 +5,7 @@ on:
     types: [published]
   workflow_dispatch:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '0 0 * * *'
 
 jobs:
   build:
@@ -23,10 +23,10 @@ jobs:
 
       - name: Build project
         env:
-          VITE_PILATESMETHODOLOGY_URL: ${{ secrets.PILATESMETHODOLOGY_URL }}
-          VITE_UPTOWN_URL: ${{ secrets.UPTOWN_URL }}
-          VITE_V12YOGA_URL: ${{ secrets.V12YOGA_URL }}
-          VITE_YOGAZAMA_URL: ${{ secrets.YOGAZAMA_URL }}
+          PILATESMETHODOLOGY_API: ${{ secrets.PILATESMETHODOLOGY_API }}
+          UPTOWN_API: ${{ secrets.UPTOWN_API }}
+          V12YOGA_API: ${{ secrets.V12YOGA_API }}
+          YOGAZAMA_API: ${{ secrets.YOGAZAMA_API }}
 
           VITE_PILATESMETHODOLOGY_HREF: ${{ secrets.PILATESMETHODOLOGY_HREF }}
           VITE_UPTOWN_HREF: ${{ secrets.UPTOWN_HREF }}

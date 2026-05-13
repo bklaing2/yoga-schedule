@@ -37,7 +37,7 @@ export const fetchClasses = createServerFn().handler(async () => {
 })
 
 async function fetchPilatesMethodology() {
-  const res = await fetch(STUDIOS.pilatesMethodology.url)
+  const res = await fetch(STUDIOS.pilatesMethodology.api)
   const { payload: classes } = (await res.json()) as PilatesMethodologyResponse
   return info(classes.filter((c) =>
     !c.isCancelled
@@ -58,7 +58,7 @@ async function fetchPilatesMethodology() {
 }
 
 async function fetchUptown() {
-  const res = await fetch(STUDIOS.uptown.url)
+  const res = await fetch(STUDIOS.uptown.api)
   const { data } = (await res.json()) as UptownResponse, { classes } = data
   return classes.filter((c) =>
     c.location.name.toLowerCase().includes("uptown") &&
@@ -82,7 +82,7 @@ async function fetchUptown() {
 }
 
 async function fetchV12Yoga() {
-  const res = await fetch(STUDIOS.v12Yoga.url)
+  const res = await fetch(STUDIOS.v12Yoga.api)
   const { contents } = (await res.json()) as V12YogaResponse
   const { window: { document } } = new JSDOM(contents)
   const rows = document.getElementsByTagName("tr")
@@ -118,7 +118,7 @@ async function fetchV12Yoga() {
 }
 
 async function fetchYogaZama() {
-  const res = await fetch(STUDIOS.yogaZama.url)
+  const res = await fetch(STUDIOS.yogaZama.api)
   const { results: classes } = (await res.json()) as YogaZamaResponse
   return info(classes.filter((c) =>
     !c.is_cancelled
