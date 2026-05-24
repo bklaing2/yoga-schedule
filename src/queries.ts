@@ -59,8 +59,10 @@ async function fetchPilatesMethodology() {
 
 async function fetchUptown() {
   const res = await fetch(STUDIOS.uptown.api)
-  const { data } = (await res.json()) as UptownResponse, { classes } = data
+  const { data: { classes } } = (await res.json()) as UptownResponse
+
   return classes.filter((c) =>
+    c.location &&
     c.location.name.toLowerCase().includes("uptown") &&
     c.isBookable &&
     !c.canceled &&
